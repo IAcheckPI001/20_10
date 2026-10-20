@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fff7f8">
+  <title>Một điều dễ thương dành tặng bạn · 20/10</title>
+  <style>
+    :root {
+      --site-primary: #B83E68;
+      --site-on-primary: #FFFFFF;
+      --site-secondary: #F6D8E4;
+      --site-on-secondary: #56233A;
+      --site-background: #FFF7F8;
+      --site-on-background: #402C36;
+      --site-font-body: "Segoe UI", Arial, sans-serif;
+      --site-font-heading: Georgia, "Times New Roman", serif;
+      --site-heading-scale: 1;
+      --site-spacing-scale: 1;
+      --site-radius-scale: 1;
+      --site-decoration-opacity: 1;
+      --surface: light-dark(#FFFFFF, #2B2028);
+      --surface-soft: light-dark(#FFF0F4, #382430);
+      --ink-muted: light-dark(#765866, #D8BFCB);
+      --line: light-dark(#F0D5E0, #5A3B4B);
+    }
+
+    * { box-sizing: border-box; }
+    html { min-height: 100%; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--site-font-body);
+      background: light-dark(#FFF7F8, #1E171D);
+      color: light-dark(var(--site-on-background), #F9EAF0);
+    }
+
+    button { font: inherit; }
+    #app {
+      position: relative;
+      min-height: 100vh;
+      overflow: hidden;
+      isolation: isolate;
+      border-radius: 0;
+      background-color: light-dark(var(--site-background), #211820);
+      color: light-dark(var(--site-on-background), #F9EAF0);
+      display: grid;
+      place-items: center;
+      padding: calc(28px * var(--site-spacing-scale)) 18px;
+    }
+
+    .ambient {
+      position: absolute;
+      z-index: -1;
+      pointer-events: none;
+      opacity: var(--site-decoration-opacity);
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .glow {
+      position: absolute;
+      width: min(70vw, 620px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      filter: blur(2px);
+      background: radial-gradient(circle, light-dark(#FBE0E9, #543044) 0%, transparent 68%);
+    }
+    .glow.one { top: -28%; left: -15%; }
+    .glow.two { right: -20%; bottom: -35%; background: radial-gradient(circle, light-dark(#F7E6C9, #493528) 0%, transparent 68%); }
+
+    .tiny-flower {
+      position: absolute;
+      font-size: clamp(20px, 4vw, 34px);
+      opacity: .48;
+      animation: drift 7s ease-in-out infinite;
+    }
+    .tiny-flower:nth-child(3) { top: 15%; left: 12%; animation-delay: -2s; }
+    .tiny-flower:nth-child(4) { top: 22%; right: 13%; animation-delay: -4s; }
+    .tiny-flower:nth-child(5) { bottom: 15%; left: 17%; animation-delay: -1s; }
+    .tiny-flower:nth-child(6) { bottom: 20%; right: 15%; animation-delay: -3s; }
+
+    .content {
+      width: min(100%, 760px);
+      text-align: center;
+      position: relative;
+      padding: clamp(24px, 5vw, 48px) clamp(16px, 5vw, 48px);
+      border: 1px solid light-dark(rgba(184, 62, 104, .16), rgba(245, 189, 212, .18));
+      border-radius: calc(30px * var(--site-radius-scale));
+      background: light-dark(rgba(255,255,255,.67), rgba(44,30,40,.7));
+      box-shadow: 0 24px 80px light-dark(rgba(123, 49, 78, .09), rgba(0,0,0,.18));
+      backdrop-filter: blur(12px);
+    }
+
+    .eyebrow {
+      color: var(--site-primary);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      margin: 0 0 16px;
+    }
+    h1, h2, p { margin-top: 0; }
+    h1 {
+      font-family: var(--site-font-heading);
+      font-weight: 500;
+      font-size: clamp(34px, calc(5.7vw * var(--site-heading-scale)), 60px);
+      line-height: 1.12;
+      letter-spacing: -.035em;
+      margin-bottom: 16px;
+    }
+    .intro {
+      color: var(--ink-muted);
+      max-width: 460px;
+      margin: 0 auto 28px;
+      font-size: clamp(14px, 2.2vw, 17px);
+      line-height: 1.8;
+    }
+    .button-wrap { display: flex; justify-content: center; }
+    .surprise-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 54px;
+      max-width: 100%;
+      padding: 14px 24px;
+      color: var(--site-on-primary);
+      background: var(--site-primary);
+      border: 0;
+      border-radius: 999px;
+      font-weight: 750;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(184, 62, 104, .23);
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+    .surprise-button:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(184, 62, 104, .3); }
+    .surprise-button:active { transform: scale(.98); }
+    .surprise-button:focus-visible { outline: 3px solid light-dark(#E3A5BC, #F7D5E3); outline-offset: 4px; }
+    .button-icon { font-size: 20px; line-height: 1; }
+    .hint { color: var(--ink-muted); font-size: 12px; margin: 15px 0 0; }
+
+    .content.spreadsheet-mode {
+      width: min(100%, 980px);
+      padding: 0;
+      border: 0;
+      border-radius: 12px;
+      background: transparent;
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+    .spreadsheet-opening {
+      overflow: hidden;
+      border: 1px solid #D4D9D5;
+      border-radius: 12px;
+      background: #FFFFFF;
+      color: #202820;
+      text-align: left;
+      box-shadow: 0 20px 55px rgba(37, 66, 47, .16);
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+    .excel-titlebar { display: flex; align-items: center; gap: 11px; padding: 12px 15px; background: #FFFFFF; border-bottom: 1px solid #E5E8E5; }
+    .excel-logo { display: grid; place-items: center; width: 30px; height: 34px; flex: 0 0 auto; border-radius: 4px; background: #107C41; color: #FFFFFF; font-size: 19px; font-weight: 800; box-shadow: 4px 0 0 #185C37; }
+    .excel-file { min-width: 0; }
+    .excel-title { overflow: hidden; color: #252B26; font-size: 13px; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+    .excel-subtitle { margin-top: 3px; color: #68736B; font-size: 10px; }
+    .excel-cloud { margin-left: auto; color: #107C41; font-size: 20px; }
+    .excel-ribbon { display: flex; align-items: center; flex-wrap: wrap; gap: 5px 15px; min-height: 42px; padding: 7px 15px; border-bottom: 1px solid #E2E7E2; background: #FFFFFF; color: #343B35; font-size: 11px; }
+    .ribbon-tab { padding: 7px 2px; }
+    .ribbon-tab.active { border-bottom: 2px solid #107C41; color: #176C3A; font-weight: 750; }
+    .ribbon-tool { color: #58655B; font-size: 12px; }
+    .formula-row { display: flex; align-items: center; gap: 10px; min-height: 34px; padding: 5px 10px; border-bottom: 1px solid #DDE3DD; background: #F8FAF8; color: #69736A; font-size: 11px; }
+    .name-box { min-width: 45px; padding: 4px 6px; border: 1px solid #D4DAD4; border-radius: 2px; background: #FFFFFF; color: #27332A; text-align: center; }
+    .formula-equal { font-family: Georgia, serif; font-style: italic; }
+    .formula-value { overflow: hidden; color: #3D473F; text-overflow: ellipsis; white-space: nowrap; }
+    .sheet-wrap { width: 100%; max-width: 100%; overflow: auto; background: #FFFFFF; -webkit-overflow-scrolling: touch; max-height: 350px; min-height: 220px; overscroll-behavior: contain; }
+    .sheet-table { width: 100%; min-width: 740px; border-collapse: collapse; table-layout: fixed; color: #303832; font-size: 11px; }
+    .sheet-table th, .sheet-table td { height: 34px; padding: 7px 9px; border: 1px solid #E0E5E0; text-align: left; white-space: nowrap; }
+    .sheet-table .row-index { width: 38px; padding: 5px; background: #F2F4F2; color: #68736B; font-weight: 500; text-align: center; }
+    .sheet-table .column-letters th:not(.row-index) { height: 25px; padding: 3px; background: #F2F4F2; color: #647066; font-weight: 500; text-align: center; }
+    .sheet-table .sheet-heading td { height: 42px; background: #E7F2E9; color: #175B32; font-size: 13px; font-weight: 800; letter-spacing: .035em; }
+    .sheet-table .column-headers th:not(.row-index) { background: #197341; color: #FFFFFF; font-weight: 700; }
+    .sheet-table tbody tr:not(.sheet-heading):not(.column-headers):hover td { background: #F5FAF5; }
+    .sheet-table .progress-complete { color: #18733D; font-weight: 700; }
+    .sheet-table .progress-pending { color: #98670B; font-weight: 650; }
+    .sheet-table .blank-row td { height: 15px; padding: 0; border-top: 0; border-bottom: 0; }
+    .sheet-table .sheet-note-label { background: #F8FAF7; color: #566157; font-style: italic; }
+    .sheet-table .secret-cell-cell { padding: 3px; background: #FFF8D9; }
+    .secret-cell { width: 16%; min-height: 31px; padding: 6px 8px; border: 2px solid #9ebead; border-radius: 1px; background: #c2e7ff; color: #59460B; border-radius: 22px; font-size: 11px; font-weight: 800; cursor: pointer; text-align: center; transition: background .2s ease, transform .2s ease; }
+    .secret-cell:hover, .secret-cell:focus-visible { background: var(--gm3-sys-color-secondary-container,#c2e7ff); }
+    .secret-cell:hover { transform: translateY(-1px); }
+    .secret-cell:focus-visible { outline: 3px solid #7AC693; outline-offset: 2px; }
+    .sheet-tabs { display: flex; align-items: center; gap: 12px; min-height: 34px; padding: 0 12px; border-top: 1px solid #DDE3DD; background: #F5F7F5; color: #68736B; font-size: 10px; }
+    .sheet-tab { align-self: stretch; display: inline-flex; align-items: center; padding: 0 13px; border-bottom: 3px solid #168047; background: #FFFFFF; color: #176C3A; font-weight: 750; }
+    .sheet-hint { margin: 0; padding: 11px 14px; background: #F4F8F4; color: #617065; font-size: 11px; line-height: 1.6;}
+
+    .reveal { display: none; animation: fade-up .8s cubic-bezier(.2,.8,.2,1) both; }
+    .reveal.visible { display: block; }
+    .opening { transition: opacity .3s ease, transform .3s ease; }
+    .opening.hidden { display: none; }
+
+    .bouquet {
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      width: min(100%, 410px);
+      height: 245px;
+      margin: 0 auto 16px;
+      overflow: visible;
+    }
+    .flower {
+      position: absolute;
+      bottom: 33px;
+      width: 118px;
+      height: 180px;
+      transform-origin: 50% 100%;
+      animation: stem-grow .75s cubic-bezier(.2,.7,.3,1) both;
+    }
+    .flower.left { left: calc(50% - 118px); transform: rotate(-17deg) scale(.91); animation-delay: .12s; }
+    .flower.center { left: calc(50% - 59px); z-index: 2; animation-delay: .02s; }
+    .flower.right { left: calc(50%); transform: rotate(18deg) scale(.88); animation-delay: .2s; }
+    .stem {
+      position: absolute;
+      width: 5px;
+      height: 112px;
+      left: 57px;
+      bottom: 0;
+      border-radius: 9px;
+      background: linear-gradient(90deg, #4F8D66, #8FC18B);
+      transform-origin: bottom;
+    }
+    .leaf {
+      position: absolute;
+      width: 33px;
+      height: 15px;
+      background: #6DA779;
+      border-radius: 100% 0 100% 0;
+      bottom: 50px;
+      left: 31px;
+      transform: rotate(-25deg);
+    }
+    .leaf.right-leaf { left: 59px; bottom: 76px; transform: scaleX(-1) rotate(-24deg); }
+    .bloom {
+      position: absolute;
+      width: 104px;
+      height: 104px;
+      top: 0;
+      left: 7px;
+      animation: bloom-in .85s cubic-bezier(.2,.8,.2,1) both;
+      animation-delay: .24s;
+    }
+    .petal {
+      position: absolute;
+      width: 34px;
+      height: 49px;
+      left: 35px;
+      top: 3px;
+      border-radius: 55% 55% 45% 45%;
+      transform-origin: 50% 49px;
+      background: linear-gradient(160deg, #FFD6E4, #E95D91 78%);
+      box-shadow: inset -3px -4px 6px rgba(145, 31, 76, .12);
+    }
+    .petal:nth-child(2) { transform: rotate(45deg); }
+    .petal:nth-child(3) { transform: rotate(90deg); }
+    .petal:nth-child(4) { transform: rotate(135deg); }
+    .petal:nth-child(5) { transform: rotate(180deg); }
+    .petal:nth-child(6) { transform: rotate(225deg); }
+    .petal:nth-child(7) { transform: rotate(270deg); }
+    .petal:nth-child(8) { transform: rotate(315deg); }
+    .center-dot {
+      position: absolute;
+      left: 39px;
+      top: 39px;
+      width: 27px;
+      height: 27px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 32%, #FFF1A8, #EDAB36 78%);
+      border: 3px solid #FFE9A4;
+      box-shadow: 0 1px 5px rgba(149, 83, 24, .14);
+    }
+    .flower.center .petal { background: linear-gradient(160deg, #FFF0B7, #F6B940 78%); }
+    .flower.center .center-dot { background: radial-gradient(circle at 35% 32%, #FFF3C2, #E89A24 78%); }
+    .flower.right .petal { background: linear-gradient(160deg, #F3D8FF, #B77BE1 78%); }
+    .flower.right .center-dot { background: radial-gradient(circle at 35% 32%, #FFF1A8, #EDAB36 78%); }
+    .bouquet-ribbon {
+      position: absolute;
+      z-index: 3;
+      bottom: 46px;
+      left: calc(50% - 23px);
+      width: 48px;
+      height: 24px;
+      border-radius: 5px 5px 11px 11px;
+      background: #D95183;
+      transform: rotate(-5deg);
+      box-shadow: 0 3px 8px rgba(137, 46, 82, .15);
+    }
+    .bouquet-ribbon::before, .bouquet-ribbon::after {
+      content: "";
+      position: absolute;
+      top: 13px;
+      width: 19px;
+      height: 29px;
+      background: #C83F71;
+      z-index: -1;
+      clip-path: polygon(0 0, 100% 0, 70% 100%, 50% 80%, 20% 100%);
+    }
+    .bouquet-ribbon::before { left: 3px; transform: rotate(13deg); }
+    .bouquet-ribbon::after { right: 3px; transform: rotate(-13deg); }
+
+    .message-kicker { color: var(--site-primary); font-weight: 750; letter-spacing: .05em; font-size: 13px; margin-bottom: 9px; }
+    .message-title {
+      font-family: var(--site-font-heading);
+      font-size: clamp(30px, calc(5.2vw * var(--site-heading-scale)), 52px);
+      font-weight: 500;
+      line-height: 1.16;
+      color: light-dark(#A62F5B, #F1A8C3);
+      margin-bottom: 18px;
+    }
+    .message-text {
+      max-width: 530px;
+      margin: 0 auto;
+      font-size: clamp(14px, 2.1vw, 17px);
+      color: var(--ink-muted);
+      line-height: 1.9;
+    }
+    .signature {
+      margin: 20px 0 0;
+      font-family: var(--site-font-heading);
+      color: var(--site-primary);
+      font-style: italic;
+      font-size: 20px;
+    }
+    .restart {
+      margin-top: 24px;
+      background: transparent;
+      color: var(--site-primary);
+      border: 1px solid light-dark(#E7B5C8, #74465B);
+      border-radius: 999px;
+      padding: 10px 17px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 650;
+    }
+    .restart:hover { background: var(--surface-soft); }
+    .confetti-layer { position: fixed; z-index: 50; inset: 0; overflow: hidden; pointer-events: none; opacity: var(--site-decoration-opacity); }
+    .confetti { position: absolute; display: block; top: -8%; line-height: 1; font-size: 24px; animation: fall-down 5.4s linear forwards; will-change: transform, opacity; user-select: none; filter: drop-shadow(0 2px 2px rgba(139, 67, 96, .16)); }
+    .footer-note { position: absolute; bottom: 14px; left: 12px; right: 12px; text-align: center; color: var(--ink-muted); font-size: 11px; opacity: .75; }
+
+    @keyframes fade-up { from { opacity: 0; transform: translateY(18px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes bloom-in { from { opacity: 0; transform: scale(.15) rotate(-40deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
+    @keyframes stem-grow { from { opacity: 0; translate: 0 35px; } to { opacity: 1; translate: 0 0; } }
+    @keyframes drift { 0%, 100% { transform: translateY(0) rotate(-8deg); } 50% { transform: translateY(-12px) rotate(8deg); } }
+    @keyframes fall-down { 0% { transform: translate3d(0, -12vh, 0) rotate(0deg) scale(.78); opacity: 0; } 8% { opacity: 1; } 35% { transform: translate3d(26px, 32vh, 0) rotate(145deg) scale(1); opacity: 1; } 68% { transform: translate3d(-18px, 70vh, 0) rotate(285deg) scale(.95); opacity: .95; } 100% { transform: translate3d(22px, 115vh, 0) rotate(450deg) scale(1.12); opacity: 0; } }
+
+    @media (max-width: 480px) {
+      #app { padding: 22px 12px 34px; }
+      .content { border-radius: calc(24px * var(--site-radius-scale)); padding: 30px 17px; }
+      .content.spreadsheet-mode { padding: 0; border-radius: 12px; }
+      .excel-titlebar { min-width: 0; padding: 10px 11px; }
+      .excel-subtitle { font-size: 9px; }
+      .excel-ribbon { flex-wrap: nowrap; gap: 4px 11px; padding: 6px 11px; overflow-x: auto; }
+      .formula-row { min-width: 0; }
+      .sheet-wrap { max-height: 52vh; min-height: 200px; }
+      .sheet-table { min-width: 700px; font-size: 10px; }
+      .sheet-table th, .sheet-table td { padding: 6px 8px; }
+      .sheet-hint { padding: 10px; }
+      .bouquet { transform: scale(.86); transform-origin: center bottom; margin-top: -3px; margin-bottom: 0; height: 220px; }
+      .intro { line-height: 1.7; }
+      .footer-note { font-size: 10px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+      .confetti { animation-duration: 5.4s !important; animation-iteration-count: 1 !important; }
+    }
+  </style>
+</head>
+<body>
+  <main id="app">
+    <div class="ambient" aria-hidden="true">
+      <div class="glow one"></div>
+      <div class="glow two"></div>
+      <span class="tiny-flower">✿</span>
+      <span class="tiny-flower">❀</span>
+      <span class="tiny-flower">✿</span>
+      <span class="tiny-flower">❀</span>
+    </div>
+    <div class="confetti-layer" id="confettiLayer" aria-hidden="true"></div>
+
+    <section class="content spreadsheet-mode" aria-live="polite">
+      <div class="opening spreadsheet-opening" id="opening">
+        <div class="excel-titlebar">
+          <span class="excel-logo" aria-hidden="true">X</span>
+          <div class="excel-file">
+            <div class="excel-title">Danh sách nhân sự Ngành Thiếu 2026-2027.xlsx</div>
+            <div class="excel-subtitle">Đã lưu trên thiết bị · Tất cả thay đổi đã được lưu</div>
+          </div>
+          <span class="excel-cloud" aria-hidden="true">☁</span>
+        </div>
+        <div class="excel-ribbon" aria-hidden="true">
+          <span class="ribbon-tab active">Trang đầu</span><span class="ribbon-tab">Chèn</span><span class="ribbon-tab">Bố trí trang</span><span class="ribbon-tab">Công thức</span><span class="ribbon-tab">Dữ liệu</span><span class="ribbon-tool">↶</span><span class="ribbon-tool">↷</span><span class="ribbon-tool">B</span><span class="ribbon-tool">▤</span><span class="ribbon-tool">▦</span>
+        </div>
+        <div class="formula-row" aria-hidden="true">
+          <span class="name-box">F10</span><span class="formula-equal">fx</span><button class="secret-cell" id="secretCell" type="button" aria-label="Mở ghi chú bí mật">Chỉnh sửa</button><span class="formula-value">Một lời nhắn nhỏ dành cho người đặc biệt ✿</span>
+        </div>
+        <div class="sheet-wrap" role="region" aria-label="Bảng tính công việc tháng 10" tabindex="0">
+          <table class="sheet-table">
+            <colgroup><col style="width:38px"><col style="width:52px"><col style="width:145px"><col style="width:175px"><col style="width:105px"><col style="width:85px"><col style="width:165px"></colgroup>
+            <thead>
+              <tr class="column-letters"><th class="row-index" aria-label="Số hàng"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th></tr>
+            </thead>
+            <tbody style="counter-reset: rowIndex 0; font-size: 12px; line-height: 1.5; color: #303832;">
+              
+              <tr class="sheet-heading"><th class="row-index">1</th><td colspan="6">Danh sách nhân sự Ngành Thiếu 2026-2027</td></tr>
+              <tr class="column-headers"><th class="row-index">2</th><th>STT</th><th>TÊN THÁNH</th><th style="width:180px;">HỌ VÀ TÊN</th><th>Lớp</th></tr>
+              <tr><th class="row-index">3</th><td>1</td><td>Ann</td><td>Vi Trần Uyên Nhi</td><td>Thiếu 1A</td></tr>
+              <tr><th class="row-index">4</th><td>2</td><td>Maria</td><td>Nguyễn Phương Linh</td><td>Thiếu 1C</td></tr>
+              <tr><th class="row-index">3</th><td>1</td><td>Maria</td><td>Trần Ngọc Ánh</td><td>Thiếu 1D</td></tr>
+              <tr><th class="row-index">4</th><td>2</td><td>Anna</td><td>Đỗ Phương Anh</td><td>Thiếu 1D</td></tr>
+              <tr><th class="row-index">3</th><td>1</td><td>Maria</td><td>Trần Thị Kim Anh</td><td>Thiếu 1D</td></tr>
+              <tr><th class="row-index">4</th><td>2</td><td>Maria</td><td>Nguyễn Trần Anh Thư</td><td>Thiếu 2A</td></tr>
+              <tr><th class="row-index">3</th><td>1</td><td>Anne</td><td>Vi Trần Ánh Ngọc</td><td>Thiếu 2C</td></tr>
+              <tr><th class="row-index">4</th><td>2</td><td>Mari</td><td>Phan Thị Vĩnh Trinh</td><td>Thiếu 2C</td></tr>
+              <tr><th class="row-index">3</th><td>1</td><td>Maria</td><td>Nguyễn Bảo Châu</td><td>Thiếu 2C</td></tr>
+              <tr><th class="row-index">4</th><td>2</td><td>Maria</td><td>Đinh Thị Ngân Hà</td><td>Thiếu 2E</td></tr>
+              <tr><th class="row-index">3</th><td>1</td><td>Anna</td><td>Trần Thị Thu Hoa</td><td>Thiếu 3A</td></tr>
+              <tr><th class="row-index">4</th><td>2</td><td>Teresa</td><td>Nguyễn Thị Bích Ngọc</td><td>Thiếu 3A</td></tr>
+              <tr><th class="row-index">3</th><td>1</td><td>Maria</td><td>Đinh Thị Hồng Hạnh</td><td>Thiếu 3C</td></tr>
+              <tr><th class="row-index">4</th><td>2</td><td>Maria</td><td>Ngô Thị Thanh Thúy</td><td>Thiếu 3C</td></tr>
+              <tr><th class="row-index">3</th><td>1</td><td>Teresa</td><td>Nguyễn Thị Thắm</td><td>Thiếu 3C</td></tr>
+              <tr><th class="row-index">4</th><td>2</td><td>Maria</td><td>Đỗ Phạm Quỳnh Hương</td><td>Thiếu 3D</td></tr>
+              <tr><th class="row-index">3</th><td>1</td><td>Teresa</td><td>Trần Thị Ánh Vân</td><td>Thiếu 3D</td></tr>
+              <tr><th class="row-index">4</th><td>2</td><td>Teresa</td><td>Nguyễn Thùy Trang</td><td>Thiếu 3E</td></tr>
+              <tr><th class="row-index">3</th><td>1</td><td>Anne</td><td>Đào Thị Thu Huyền</td><td>Thiếu 3E</td></tr>
+              <tr><th class="row-index">4</th><td>2</td><td>Teresa</td><td>Khổng Ngọc Hồng Hân</td><td>Trưởng Ngành</td></tr>
+              <tr class="blank-row"><th class="row-index">9</th><td colspan="6"></td></tr>
+              <tr><th class="row-index">10</th><td colspan="4" class="sheet-note-label">Ghi chú cuối bảng</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="sheet-tabs"><span aria-hidden="true">＋</span><span class="sheet-tab">Sheet 1</span><span>▤</span><span style="margin-left:auto">Sẵn sàng</span></div>
+        <p class="sheet-hint">✨ Ở đây có sự bất ngờ nha ✨</p>
+      </div>
+
+      <div class="reveal" id="reveal" aria-hidden="true">
+        <div class="bouquet" aria-label="Bó hoa hồng, hoa vàng và hoa tím" role="img">
+          <div class="flower left">
+            <div class="stem"></div><div class="leaf"></div><div class="leaf right-leaf"></div>
+            <div class="bloom"><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="center-dot"></i></div>
+          </div>
+          <div class="flower center">
+            <div class="stem"></div><div class="leaf"></div><div class="leaf right-leaf"></div>
+            <div class="bloom"><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="center-dot"></i></div>
+          </div>
+          <div class="flower right">
+            <div class="stem"></div><div class="leaf"></div><div class="leaf right-leaf"></div>
+            <div class="bloom"><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="center-dot"></i></div>
+          </div>
+          <div class="bouquet-ribbon"></div>
+        </div>
+        <p class="message-kicker">20 · 10 · 2026 &nbsp; ✦ &nbsp; Gửi những điều dịu dàng nhất</p>
+        <h2 class="message-title">Chúc mừng Ngày Phụ nữ<br>Việt Nam 20/10!</h2>
+        <p class="message-text">Chúc <strong>quý Sr, các chị/em</strong> <span style="color: blue;">ngành Thiếu</span> luôn <strong>xinh đẹp</strong> theo cách riêng của mình, luôn <strong>được yêu thương, trân trọng và nâng niu</strong>. Mong mỗi ngày đều có một lý do để <strong>mỉm cười 😄 😆 😄 </strong>, một điều nhỏ bé khiến tim vui và thật nhiều hoa trong những ngày bình thường nhất. 🌷</p>
+        <p class="signature">Luôn rạng rỡ và hạnh phúc nhé! ♡</p>
+        <button class="restart" id="restartButton" type="button">↻ Xem lại bất ngờ</button>
+      </div>
+    </section>
+    <p class="footer-note">Làm bằng một chút yêu thương, dành tặng ngày 20/10 ♡</p>
+  </main>
+
+  <script>
+    const opening = document.getElementById('opening');
+    const reveal = document.getElementById('reveal');
+    const confettiLayer = document.getElementById('confettiLayer');
+    const surpriseButton = document.getElementById('secretCell');
+    const restartButton = document.getElementById('restartButton');
+    const content = document.querySelector('.content');
+    const decorations = ['🌸', '🌼', '🌷', '🌺', '✿', '❀', '💮', '💗'];
+    let flowerRainTimer;
+
+    function addFallingFlower() {
+      const item = document.createElement('span');
+      item.className = 'confetti';
+      item.setAttribute('aria-hidden', 'true');
+      item.textContent = decorations[Math.floor(Math.random() * decorations.length)];
+      item.style.left = `${Math.random() * 98}%`;
+      item.style.animationDuration = `${4.2 + Math.random() * 2.5}s`;
+      item.style.animationDelay = `${Math.random() * 0.25}s`;
+      item.style.fontSize = `${20 + Math.random() * 20}px`;
+      confettiLayer.appendChild(item);
+      item.addEventListener('animationend', () => item.remove(), { once: true });
+    }
+
+    function burstFlowers() {
+      confettiLayer.replaceChildren();
+      clearInterval(flowerRainTimer);
+
+      // Tạo ngay một lớp hoa đang rơi để hiệu ứng được nhìn thấy tức thì.
+      for (let i = 0; i < 24; i += 1) {
+        addFallingFlower();
+        const item = confettiLayer.lastElementChild;
+        item.style.animationDelay = `${-Math.random() * 3.8}s`;
+      }
+
+      // Tiếp tục thả hoa từ trên xuống cho đến khi người xem quay lại bảng tính.
+      flowerRainTimer = setInterval(() => {
+        addFallingFlower();
+        if (Math.random() > 0.25) addFallingFlower();
+      }, 240);
+    }
+
+    function openSurprise() {
+      opening.classList.add('hidden');
+      content.classList.remove('spreadsheet-mode');
+      reveal.classList.remove('visible');
+      reveal.setAttribute('aria-hidden', 'false');
+      requestAnimationFrame(() => reveal.classList.add('visible'));
+      burstFlowers();
+    }
+
+    function resetSurprise() {
+      reveal.classList.remove('visible');
+      reveal.setAttribute('aria-hidden', 'true');
+      opening.classList.remove('hidden');
+      content.classList.add('spreadsheet-mode');
+      confettiLayer.replaceChildren();
+      clearInterval(flowerRainTimer);
+      flowerRainTimer = null;
+    }
+
+    surpriseButton.addEventListener('click', openSurprise);
+    restartButton.addEventListener('click', resetSurprise);
+  </script>
+</body>
+</html>
