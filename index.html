@@ -180,6 +180,7 @@
     .sheet-table .column-letters th:not(.row-index) { height: 25px; padding: 3px; background: #F2F4F2; color: #647066; font-weight: 500; text-align: center; }
     .sheet-table .sheet-heading td { height: 42px; background: #E7F2E9; color: #175B32; font-size: 13px; font-weight: 800; letter-spacing: .035em; }
     .sheet-table .column-headers th:not(.row-index) { background: #197341; color: #FFFFFF; font-weight: 700; }
+    .sheet-table tr { cursor: pointer; }
     .sheet-table tbody tr:not(.sheet-heading):not(.column-headers):hover td { background: #F5FAF5; }
     .sheet-table .progress-complete { color: #18733D; font-weight: 700; }
     .sheet-table .progress-pending { color: #98670B; font-weight: 650; }
@@ -474,6 +475,7 @@
     const confettiLayer = document.getElementById('confettiLayer');
     const surpriseButton = document.getElementById('secretCell');
     const restartButton = document.getElementById('restartButton');
+    const sheetTable = document.querySelector('.sheet-table');
     const content = document.querySelector('.content');
     const decorations = ['🌸', '🌼', '🌷', '🌺', '✿', '❀', '💮', '💗'];
     let flowerRainTimer;
@@ -509,7 +511,44 @@
       }, 240);
     }
 
+    function playRevealMusic() {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) return;
+
+      const audioContext = new AudioContext();
+      const melody = [
+        [523.25, 0, 0.22],
+        [659.25, 0.2, 0.22],
+        [783.99, 0.4, 0.3],
+        [659.25, 0.72, 0.22],
+        [880, 0.92, 0.42]
+      ];
+      const startTime = audioContext.currentTime;
+
+      melody.forEach(([frequency, offset, duration]) => {
+        const oscillator = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        const noteStart = startTime + offset;
+        const noteEnd = noteStart + duration;
+
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(frequency, noteStart);
+        gain.gain.setValueAtTime(0.0001, noteStart);
+        gain.gain.exponentialRampToValueAtTime(0.12, noteStart + 0.03);
+        gain.gain.exponentialRampToValueAtTime(0.0001, noteEnd);
+        oscillator.connect(gain);
+        gain.connect(audioContext.destination);
+        oscillator.start(noteStart);
+        oscillator.stop(noteEnd + 0.02);
+      });
+
+      window.setTimeout(() => audioContext.close(), 1600);
+    }
+
     function openSurprise() {
+      if (opening.classList.contains('hidden')) return;
+
+      playRevealMusic();
       opening.classList.add('hidden');
       content.classList.remove('spreadsheet-mode');
       reveal.classList.remove('visible');
@@ -529,6 +568,9 @@
     }
 
     surpriseButton.addEventListener('click', openSurprise);
+    sheetTable.addEventListener('click', (event) => {
+      if (event.target.closest('tr')) openSurprise();
+    });
     restartButton.addEventListener('click', resetSurprise);
   </script>
 </body>
